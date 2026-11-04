@@ -1,0 +1,45 @@
+---
+import { documentation } from "../data/portfolio";
+import Lily from "./Lily.astro";
+---
+
+<section class="section" id="documentation" aria-labelledby="documentation-title">
+  <Lily class="deco deco--doc" />
+  <Lily class="deco deco--doc-sm" />
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="section__title" id="documentation-title">
+        <span class="heading-index" aria-hidden="true">04</span>
+        <span class="heading-rule" aria-hidden="true"></span>
+        <span>Documentation</span>
+        <Lily class="lily--inline" />
+      </h2>
+    </div>
+
+    <div class="doc-grid">
+      {
+        documentation.map((item, index) => (
+          <figure class="doc" data-reveal style={`--d: ${index * 50}ms`}>
+            <div class="doc__media">
+              <img
+                src={item.image}
+                alt={item.alt}
+                width="1800"
+                height="1013"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <figcaption class="doc__cap">
+              <span class="doc__num" aria-hidden="true">{item.number}</span>
+              <span class="doc__text">
+                <span class="doc__title">{item.title}</span>
+              </span>
+              <span class="doc__year">{item.year}</span>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>

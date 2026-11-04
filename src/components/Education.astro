@@ -1,0 +1,35 @@
+---
+import { education } from "../data/portfolio";
+import Lily from "./Lily.astro";
+---
+
+<section class="section" id="education" aria-labelledby="education-title">
+  <Lily class="deco deco--edu" />
+  <Lily class="deco deco--edu-sm" />
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="section__title" id="education-title">
+        <span class="heading-index" aria-hidden="true">03</span>
+        <span class="heading-rule" aria-hidden="true"></span>
+        <span>Education</span>
+        <Lily class="lily--inline" />
+      </h2>
+    </div>
+
+    <div class="edu-list">
+      {
+        education.map((item, index) => (
+          <article class="edu-card" data-reveal style={`--d: ${index * 80}ms`}>
+            <span class="edu-card__period">{item.period}</span>
+            <div>
+              <h3 class="edu-card__degree">{item.degree}</h3>
+              <p class="edu-card__school">{item.school}</p>
+              <p class="edu-card__detail">{item.detail}</p>
+            </div>
+            <span class="chip">{item.tag}</span>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

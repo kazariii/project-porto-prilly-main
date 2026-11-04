@@ -1,0 +1,57 @@
+---
+import { site } from "../data/portfolio";
+import Lily from "./Lily.astro";
+---
+
+<section class="contact" id="contact" aria-labelledby="contact-title">
+  <Lily class="deco deco--contact-big" tone="light" />
+  <Lily class="deco deco--contact-small" tone="light" />
+  <Lily class="deco deco--contact-tiny" tone="light" />
+  <Lily class="deco deco--contact-tiny2" tone="light" />
+  <div class="wrap contact__inner">
+    <p class="contact__kicker">
+      <span class="heading-index" aria-hidden="true">06</span>
+      <span class="heading-rule" aria-hidden="true"></span>
+      Contact
+    </p>
+
+    <h2 class="contact__title" id="contact-title">
+      Let&rsquo;s work{" "}
+      <em>together.</em>
+    </h2>
+
+    <a class="contact__mail" href={`mailto:${site.email}`}>
+      {site.email}
+      <span class="arrow" aria-hidden="true">↗</span>
+    </a>
+
+    <div class="contact__socials">
+      <a href={site.instagram.url} target="_blank" rel="noopener noreferrer">
+        Instagram — {site.instagram.handle}
+      </a>
+      <a href={site.linkedin.url} target="_blank" rel="noopener noreferrer">
+        LinkedIn — {site.linkedin.label}
+      </a>
+      <a href={site.cv} download>Unduh CV (PDF)</a>
+      {
+        site.tiktok && (
+          <a href={site.tiktok.url} target="_blank" rel="noopener noreferrer">
+            TikTok — {site.tiktok.handle}
+          </a>
+        )
+      }
+      {
+        site.phone && (
+          <a href={`tel:${site.phone.replace(/\s/g, "")}`}> {site.phone} </a>
+        )
+      }
+    </div>
+
+    <footer class="footer">
+      <span>© {site.year} {site.name}</span>
+      <a href="#top">
+        Back to top <span aria-hidden="true">↑</span>
+      </a>
+    </footer>
+  </div>
+</section>

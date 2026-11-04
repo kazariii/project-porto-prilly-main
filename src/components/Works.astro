@@ -1,0 +1,83 @@
+---
+import { works, featuredWork } from "../data/portfolio";
+import Lily from "./Lily.astro";
+---
+
+<section class="section" id="works" aria-labelledby="works-title">
+  <Lily class="deco deco--works" />
+  <Lily class="deco deco--works-sm" />
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="section__title" id="works-title">
+        <span class="heading-index" aria-hidden="true">05</span>
+        <span class="heading-rule" aria-hidden="true"></span>
+        <span>Selected Work</span>
+        <Lily class="lily--inline" />
+      </h2>
+    </div>
+
+    <article class="feature" data-reveal>
+      <div class="feature__visual">
+        <img
+          src={featuredWork.image}
+          alt={featuredWork.alt}
+          width="800"
+          height="600"
+          loading="lazy"
+        />
+      </div>
+      <div class="feature__body">
+        <p class="feature__kicker">
+          Proyek unggulan &middot; {featuredWork.category} &middot; {featuredWork.year}
+        </p>
+        <h3 class="feature__title">{featuredWork.title}</h3>
+        <p class="feature__desc">{featuredWork.description}</p>
+        <ul class="feature__stats">
+          {featuredWork.stats.map((stat) => <li>{stat}</li>)}
+        </ul>
+        <a
+          class="feature__cta"
+          href={featuredWork.url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Lihat detail <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </article>
+
+    <div class="works-grid">
+      {
+        works.map((item, index) => (
+          <a
+            class="work-card"
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-reveal
+            style={`--d: ${index * 60}ms`}
+          >
+            <div class={`work-card__thumb tone-${item.tone}`}>
+              {
+                item.image ? (
+                  <img src={item.image} alt="" loading="lazy" />
+                ) : (
+                  <span class="work-card__ghost" aria-hidden="true">
+                    {item.number}
+                  </span>
+                )
+              }
+              <span class="work-card__arrow" aria-hidden="true">
+                ↗
+              </span>
+            </div>
+            <p class="work-card__meta">
+              {item.category} &middot; {item.year}
+            </p>
+            <h3 class="work-card__title">{item.title}</h3>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

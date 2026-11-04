@@ -1,0 +1,22 @@
+---
+import { site } from "../data/portfolio";
+---
+
+<header class="topbar">
+  <div class="wrap topbar__inner">
+    <a class="topbar__left" href="#top">
+      <span class="topbar__mark" aria-hidden="true">{site.initials}</span>
+      <span class="topbar__role">{site.role}</span>
+    </a>
+    <nav class="topbar__nav" aria-label="Sections">
+      <a class="topbar__link" href="#about">About</a>
+      <a class="topbar__link" href="#experience">Experience</a>
+      <a class="topbar__link" href="#works">Works</a>
+      <a class="topbar__link topbar__cta" href="#contact">
+        Get in touch <span aria-hidden="true">↗</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<div class="progress" aria-hidden="true"></div>

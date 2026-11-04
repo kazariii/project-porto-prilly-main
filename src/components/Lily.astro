@@ -1,0 +1,59 @@
+---
+interface Props {
+  class?: string;
+  tone?: "pink" | "light";
+}
+
+const { class: className = "", tone = "pink" } = Astro.props;
+
+const outer = [0, 120, 240];
+const inner = [60, 180, 300];
+const stamens = [15, 75, 135, 195, 255, 315];
+const spots = [
+  [100, 74],
+  [92, 62],
+  [108, 64],
+  [100, 52],
+  [94, 82],
+  [107, 80],
+];
+---
+
+<svg
+  class:list={["lily", `lily--${tone}`, className]}
+  viewBox="0 0 200 200"
+  aria-hidden="true"
+  focusable="false"
+>
+  {
+    inner.map((angle) => (
+      <g transform={`rotate(${angle} 100 100)`}>
+        <path
+          class="lily__petal lily__petal--back"
+          d="M100 100 C80 82 78 48 100 18 C122 48 120 82 100 100 Z"
+        />
+      </g>
+    ))
+  }
+  {
+    outer.map((angle) => (
+      <g transform={`rotate(${angle} 100 100)`}>
+        <path
+          class="lily__petal"
+          d="M100 100 C76 78 70 38 100 4 C130 38 124 78 100 100 Z"
+        />
+        <path class="lily__vein" d="M100 98 L100 22" />
+        {spots.map(([x, y]) => <circle class="lily__spot" cx={x} cy={y} r="1.7" />)}
+      </g>
+    ))
+  }
+  {
+    stamens.map((angle) => (
+      <g transform={`rotate(${angle} 100 100)`}>
+        <path class="lily__filament" d="M100 100 L100 58" />
+        <ellipse class="lily__anther" cx="100" cy="54" rx="3" ry="8" />
+      </g>
+    ))
+  }
+  <circle class="lily__heart" cx="100" cy="100" r="5" />
+</svg>

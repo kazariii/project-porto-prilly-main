@@ -1,0 +1,48 @@
+---
+import { site } from "../data/portfolio";
+import Lily from "./Lily.astro";
+---
+
+<section class="hero" id="top">
+  <Lily class="deco deco--hero-big" />
+  <Lily class="deco deco--hero-small" />
+  <Lily class="deco deco--hero-tiny" />
+  <Lily class="deco deco--hero-tiny2" />
+  <div class="wrap hero__inner">
+    <div class="hero__text">
+      <p class="hero__eyebrow">{site.role} &middot; {site.location}</p>
+
+      <h1 class="hero__name">
+        <span>{site.firstName}</span>
+        <span class="accent">{site.lastName}</span>
+      </h1>
+
+      <p class="hero__tagline">{site.tagline}</p>
+
+      <div class="hero__actions">
+        <span class="hero__status">
+          <span class="dot" aria-hidden="true"></span>
+          {site.availability}
+        </span>
+
+        <a class="hero__cta" href="#contact">
+          Let&rsquo;s talk <span class="arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="hero__cta" href={site.cv} download>
+          Unduh CV <span class="arrow" aria-hidden="true">↓</span>
+        </a>
+      </div>
+    </div>
+
+    <figure class="hero__photo">
+      <img
+        src="/images/portrait.jpg"
+        alt={`Portrait of ${site.name}`}
+        width="720"
+        height="1280"
+        loading="eager"
+      />
+    </figure>
+  </div>
+</section>

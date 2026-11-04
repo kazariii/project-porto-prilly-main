@@ -1,0 +1,52 @@
+---
+import { site } from "../data/portfolio";
+import Lily from "./Lily.astro";
+---
+
+<section class="section" id="about" aria-labelledby="about-title">
+  <div class="wrap">
+    <div class="about">
+      <figure class="portrait" data-reveal>
+        <Lily class="deco deco--portrait" />
+        <Lily class="deco deco--portrait-sm" />
+        <div class="portrait__frame">
+          <img
+            class="portrait__img"
+            src="/images/portrait.jpg"
+            alt={`Portrait of ${site.name}`}
+            width="720"
+            height="1280"
+            loading="eager"
+          />
+        </div>
+        <figcaption class="portrait__cap">
+          <span>{site.name} — {site.role}</span>
+        </figcaption>
+      </figure>
+
+      <div class="about__body" data-reveal style="--d: 100ms">
+        <h2 class="about__title" id="about-title">
+          <span class="heading-index" aria-hidden="true">01</span>
+          <span class="heading-rule" aria-hidden="true"></span>
+          <span>About</span>
+        <Lily class="lily--inline" />
+        </h2>
+
+        {site.bio.map((paragraph) => <p class="about__text">{paragraph}</p>)}
+
+        <blockquote class="about__quote">&ldquo;{site.quote}&rdquo;</blockquote>
+
+        <ul class="about__meta">
+          {
+            site.meta.map((item) => (
+              <li>
+                <span class="meta__label">{item.label}</span>
+                <span class="meta__value">{item.value}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,28 @@
+---
+import Lily from "./Lily.astro";
+
+interface Props {
+  items: string[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="marquee-wrap">
+<div class="marquee" aria-label="Skills and specialities">
+  <div class="marquee__track">
+    {
+      [0, 1].map((group) => (
+        <div class="marquee__group" aria-hidden={group === 1 ? "true" : undefined}>
+          {items.map((item) => (
+            <span class="marquee__item">
+              {item}
+              <Lily class="marquee__sep" tone="light" />
+            </span>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</div>
+</div>

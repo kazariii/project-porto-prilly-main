@@ -1,0 +1,46 @@
+---
+import { experiences, toolkit } from "../data/portfolio";
+import Lily from "./Lily.astro";
+---
+
+<section class="section" id="experience" aria-labelledby="experience-title">
+  <Lily class="deco deco--exp" />
+  <Lily class="deco deco--exp-sm" />
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="section__title" id="experience-title">
+        <span class="heading-index" aria-hidden="true">02</span>
+        <span class="heading-rule" aria-hidden="true"></span>
+        <span>Experiences</span>
+        <Lily class="lily--inline" />
+      </h2>
+    </div>
+
+    <ol class="timeline">
+      {
+        experiences.map((item, index) => (
+          <li class="timeline__item" data-reveal style={`--d: ${index * 60}ms`}>
+            <div class="timeline__when">
+              <span class="timeline__period">{item.period}</span>
+              <span class="timeline__place">
+                {item.place} &middot; {item.type}
+              </span>
+            </div>
+            <div class="timeline__body">
+              <h3 class="timeline__role">{item.role}</h3>
+              <p class="timeline__org">{item.org}</p>
+              <p class="timeline__desc">{item.summary}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="toolkit" data-reveal>
+      <h3 class="side-title">Toolkit</h3>
+      <ul class="tag-cloud">
+        {toolkit.map((item) => <li class="tag">{item}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>
