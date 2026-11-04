@@ -112,7 +112,7 @@ export const education = [
     degree: "IPA",
     school: "SMAN 7 Banjarmasin",
     detail:
-      "Wakil Ketua Smaven Warrior (organisasi dance) dan Juara 2 Youniverse Dance Competition (Nasional, 2022).",
+      "Wakil Ketua Smaven Warrior (organisasi dance) dan Juara 2 Youniverse Dance Competition (Nasional, 2022). Nilai Akhir: 89,33.",
     tag: "High School",
   },
 ];
@@ -166,6 +166,7 @@ export const works: {
     title: "Konten Media Sosial Beauty Class",
     year: "2026",
     tone: "rose",
+    image: "/images/konten-sosmed-beauty-class.jpg",
     url: "https://canva.link/29hffthc1mjz8kn",
   },
   {
@@ -174,6 +175,7 @@ export const works: {
     title: "Poster & Banner Beauty Class",
     year: "2026",
     tone: "white",
+    image: "/images/beauty-class.jpg",
     url: "https://canva.link/29hffthc1mjz8kn",
   },
   {
@@ -183,6 +185,7 @@ export const works: {
     year: "2025",
     tone: "ink",
     // Reel kedua: https://www.instagram.com/reel/DJjY18nz_nl/
+    image: "/images/binus-untuk-negeri.jpg",
     url: "https://www.instagram.com/reel/DKN-u1sTQCM/",
   },
   {
@@ -193,6 +196,7 @@ export const works: {
     tone: "blush",
     // Loud.id: https://www.instagram.com/reel/DaKR8R2zuYT/
     // Yamaha:  https://www.instagram.com/reel/DDmLgcSTup9/
+    image: "/images/roxst-photoshoot.jpg",
     url: "https://www.instagram.com/reel/DO3bm4xEUWE/",
   },
 ];
