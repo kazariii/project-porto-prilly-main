@@ -21,9 +21,10 @@ import Lily from "./Lily.astro";
         <img
           src={featuredWork.image}
           alt={featuredWork.alt}
-          width="800"
-          height="600"
+          width="1800"
+          height="1013"
           loading="lazy"
+          decoding="async"
         />
       </div>
       <div class="feature__body">
@@ -60,7 +61,7 @@ import Lily from "./Lily.astro";
             <div class={`work-card__thumb tone-${item.tone}`}>
               {
                 item.image ? (
-                  <img src={item.image} alt="" loading="lazy" />
+                  <img src={item.image} alt="" loading="lazy" decoding="async" />
                 ) : (
                   <span class="work-card__ghost" aria-hidden="true">
                     {item.number}

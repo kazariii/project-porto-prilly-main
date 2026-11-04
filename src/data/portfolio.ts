@@ -122,28 +122,28 @@ export const documentation = [
     number: "01",
     title: "Beauty Class with Makeover",
     year: "2026",
-    image: "/images/beauty-class.jpg",
+    image: "/images/beauty-class.webp",
     alt: "Dokumentasi event Beauty Class with Makeover",
   },
   {
     number: "02",
     title: "BINUS Untuk Negeri",
     year: "2026",
-    image: "/images/binus-untuk-negeri.jpg",
+    image: "/images/binus-untuk-negeri.webp",
     alt: "Dokumentasi kampanye BINUS Untuk Negeri",
   },
   {
     number: "03",
     title: "Pemotretan ROXST Indonesia",
     year: "2024 — 2026",
-    image: "/images/roxst-photoshoot.jpg",
+    image: "/images/roxst-photoshoot.webp",
     alt: "Sesi pemotretan bersama ROXST Indonesia",
   },
   {
     number: "04",
     title: "Live Streaming WIDEMOORE",
     year: "2025",
-    image: "/images/widemoore-live.jpg",
+    image: "/images/widemoore-live.webp",
     alt: "Sesi live streaming bersama WIDEMOORE",
   },
 ];
@@ -166,7 +166,7 @@ export const works: {
     title: "Konten Media Sosial Beauty Class",
     year: "2026",
     tone: "rose",
-    image: "/images/konten-sosmed-beauty-class.jpg",
+    image: "/images/konten-sosmed-beauty-class.webp",
     url: "https://canva.link/29hffthc1mjz8kn",
   },
   {
@@ -175,7 +175,7 @@ export const works: {
     title: "Poster & Banner Beauty Class",
     year: "2026",
     tone: "white",
-    image: "/images/beauty-class.jpg",
+    image: "/images/beauty-class.webp",
     url: "https://canva.link/29hffthc1mjz8kn",
   },
   {
@@ -185,7 +185,7 @@ export const works: {
     year: "2025",
     tone: "ink",
     // Reel kedua: https://www.instagram.com/reel/DJjY18nz_nl/
-    image: "/images/binus-untuk-negeri.jpg",
+    image: "/images/binus-untuk-negeri.webp",
     url: "https://www.instagram.com/reel/DKN-u1sTQCM/",
   },
   {
@@ -196,7 +196,7 @@ export const works: {
     tone: "blush",
     // Loud.id: https://www.instagram.com/reel/DaKR8R2zuYT/
     // Yamaha:  https://www.instagram.com/reel/DDmLgcSTup9/
-    image: "/images/roxst-photoshoot.jpg",
+    image: "/images/roxst-photoshoot.webp",
     url: "https://www.instagram.com/reel/DO3bm4xEUWE/",
   },
 ];
@@ -210,7 +210,7 @@ export const featuredWork = {
     "\"Beauty Class with Makeover\" adalah event kecantikan yang saya selenggarakan sendiri sebagai proyek mata kuliah Event Management. Saya menangani sponsorship dan MoU, promosi di media sosial, desain poster dan banner, hingga pelaksanaan event bersama 12 peserta.",
   stats: ["8 sponsor", "12 peserta", "Rp3,5 juta dana sponsor tunai"],
   // Placeholder; ganti dengan foto/poster Beauty Class dari client.
-  image: "/images/beauty-class.jpg",
+  image: "/images/beauty-class.webp",
   alt: "Placeholder: dokumentasi event Beauty Class with Makeover",
   url: "https://canva.link/29hffthc1mjz8kn",
 };
