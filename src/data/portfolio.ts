@@ -120,6 +120,7 @@ export const projects = [
       "Mochi Agrin",
       "ET Pretty Nails",
       "PT Adaro",
+      "Make Over",
     ],
   },
   {
