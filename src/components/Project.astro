@@ -1,0 +1,83 @@
+---
+import { projects } from "../data/portfolio";
+import Lily from "./Lily.astro";
+---
+
+<section class="section" id="project" aria-labelledby="project-title">
+  <Lily class="deco deco--exp" />
+  <Lily class="deco deco--exp-sm" />
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="section__title" id="project-title">
+        <span class="heading-index" aria-hidden="true">03</span>
+        <span class="heading-rule" aria-hidden="true"></span>
+        <span>Project</span>
+        <Lily class="lily--inline" />
+      </h2>
+    </div>
+
+    <ol class="timeline">
+      {
+        projects.map((item, index) => (
+          <li class="timeline__item" data-reveal style={`--d: ${index * 60}ms`}>
+            <div class="timeline__when">
+              {item.period && <span class="timeline__period">{item.period}</span>}
+              <span class="timeline__place">
+                {item.place && <>{item.place} &middot; </>}{item.type}
+              </span>
+            </div>
+            <div class="timeline__body">
+              <p class="timeline__role-label">{item.role}</p>
+              <h3 class="timeline__role">{item.title}</h3>
+              {item.org && <p class="timeline__org">{item.org}</p>}
+              <p class="timeline__desc">{item.summary}</p>
+              {item.details && <p class="timeline__desc">{item.details}</p>}
+              {item.sponsors && (
+                <div class="project-sponsors">
+                  <h4 class="project-sponsors__title">Sponsor Event Management</h4>
+                  <ul class="project-sponsors__list">
+                    {item.sponsors.map((sponsor) => <li>{sponsor}</li>)}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .project-sponsors {
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+
+  .project-sponsors__title {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .project-sponsors__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .project-sponsors__list li {
+    padding: 5px 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--ink-soft);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+</style>

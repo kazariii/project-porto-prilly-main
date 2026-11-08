@@ -1,9 +1,9 @@
 ---
-import { experiences, toolkit } from "../data/portfolio";
+import { experiences } from "../data/portfolio";
 import Lily from "./Lily.astro";
 ---
 
-<section class="section" id="experience" aria-labelledby="experience-title">
+<section class="section section--white" id="experience" aria-labelledby="experience-title">
   <Lily class="deco deco--exp" />
   <Lily class="deco deco--exp-sm" />
   <div class="wrap">
@@ -27,20 +27,13 @@ import Lily from "./Lily.astro";
               </span>
             </div>
             <div class="timeline__body">
-              <h3 class="timeline__role">{item.role}</h3>
-              <p class="timeline__org">{item.org}</p>
+              <p class="timeline__role-label">{item.role}</p>
+              <h3 class="timeline__role">{item.org}</h3>
               <p class="timeline__desc">{item.summary}</p>
             </div>
           </li>
         ))
       }
     </ol>
-
-    <div class="toolkit" data-reveal>
-      <h3 class="side-title">Toolkit</h3>
-      <ul class="tag-cloud">
-        {toolkit.map((item) => <li class="tag">{item}</li>)}
-      </ul>
-    </div>
   </div>
 </section>

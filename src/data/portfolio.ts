@@ -11,7 +11,7 @@ export const site = {
   firstName: "Prilly",
   lastName: "Sinaga",
   initials: "PS",
-  role: "Digital Marketing & Event Organizer",
+  role: "Digital Marketing, Social Media Content & Event Management",
   year: "2026",
   location: "Malang, Indonesia",
   university: "BINUS University @Malang",
@@ -23,6 +23,7 @@ export const site = {
   email: "prillyesterintansinaga@gmail.com",
   phone: "+62 812 5187 0337",
   cv: "/cv-prilly-ester-intan-sinaga.pdf",
+  cvPreview: "/images/cv-prilly-preview.webp",
   instagram: {
     handle: "@prillyester_",
     url: "https://www.instagram.com/prillyester_/",
@@ -39,12 +40,35 @@ export const site = {
   quote:
     "Good content tells a story, and a good event makes people feel part of it.",
   meta: [
-    { label: "Focus", value: "Digital Marketing & Event Management" },
+    { label: "Focus", value: "Digital Marketing, Social Media Content & Event Management" },
     { label: "Based in", value: "Malang, Jawa Timur" },
     { label: "Education", value: "BINUS University" },
     { label: "Status", value: "Terbuka untuk magang" },
   ],
 };
+
+export const aboutSkills = [
+  {
+    title: "Soft Skills",
+    items: [
+      "Communication",
+      "Adaptability",
+      "Teamwork & Collaboration",
+      "Time Management",
+      "Attention to Detail",
+    ],
+  },
+  {
+    title: "Hard Skills",
+    items: [
+      "Event Management",
+      "Creative Design (Canva, CapCut)",
+      "Digital Marketing",
+      "Microsoft Office (Word, Outlook)",
+      "Google Workspace (Spreadsheet, Drive, Docs)",
+    ],
+  },
+];
 
 export const skillsMarquee = [
   "Perencanaan Konten",
@@ -58,15 +82,6 @@ export const skillsMarquee = [
 ];
 
 export const experiences = [
-  {
-    role: "Event Organizer",
-    org: "Beauty Class with Makeover (proyek Event Management, BINUS)",
-    place: "Malang",
-    period: "April 2026",
-    type: "Event",
-    summary:
-      "Memimpin event secara mandiri dengan dukungan freelancer: 12 peserta, 8 sponsor (dana tunai Rp3,5 juta), promosi media sosial, dan desain.",
-  },
   {
     role: "Talent",
     org: "ROXST Indonesia",
@@ -85,14 +100,53 @@ export const experiences = [
     summary:
       "Model foto dan video untuk konten media sosial brand, serta host live streaming.",
   },
+];
+
+export const projects = [
   {
+    title: "Beauty Class with Makeover",
+    role: "Event Organizer",
+    org: "Proyek Event Management · BINUS University @Malang",
+    place: "Malang",
+    period: "Juni 2026",
+    type: "Event",
+    summary:
+      "Memimpin event secara mandiri dengan dukungan freelancer: 12 peserta, 8 sponsor (dana tunai Rp3,5 juta), promosi media sosial, dan desain.",
+    sponsors: [
+      "WIDEMOORE",
+      "Pesenbunga",
+      "Jardin",
+      "Fitnessworks",
+      "Mochi Agrin",
+      "ET Pretty Nails",
+      "PT Adaro",
+    ],
+  },
+  {
+    title: "BINUS Untuk Negeri",
     role: "Talent Event",
     org: "BINUS University @Malang",
     place: "Malang",
     period: "2024 — Sekarang",
     type: "Event",
     summary:
-      "Wajah kampanye BINUS Untuk Negeri dan talent video promosi berbagai event kampus.",
+      "Dipercaya menjadi wajah utama event BINUS Untuk Negeri. Peranku mencakup tampil di video konten promosi, video storytelling, dan sesi foto untuk banner, lalu berlanjut dengan hadir langsung di lokasi selama event berlangsung.",
+  },
+  {
+    title: "SEM & SEO Brand Analysis & Digital Strategy — MADFORMAKEUP",
+    role: "Digital Marketing",
+    type: "SEM & SEO",
+    summary:
+      "Menganalisis kehadiran digital Madformakeup menggunakan tools SEM dan SEO untuk mengidentifikasi celah dan peluang pertumbuhan bagi produk makeup acne-safe. Merancang konsep website, termasuk struktur landing page dan perencanaan konten, serta menyusun strategi SEM dan SEO, termasuk penargetan keyword dan link building, untuk meningkatkan visibilitas di mesin pencari, memperkuat positioning acne-safe, dan menjangkau konsumen yang peduli kesehatan kulit secara lebih efektif.",
+  },
+  {
+    title: "Strapify – Venture Creation Expo",
+    role: "Venture Creation & Business Development",
+    type: "Venture Creation",
+    summary:
+      "Bersama tim, merancang Strapify, brand lanyard handmade yang bermitra dengan warga binaan lapas wanita untuk memproduksi lanyard kepang bagi mahasiswa dan pekerja muda. Project ini mencakup penyusunan Business Model Canvas, penentuan segmen pelanggan, perencanaan pemasaran, dan penyelarasan dengan SDGs 8 & 12.",
+    details:
+      "Melalui Venture Creation Expo, kami memperkenalkan konsep bisnis kami kepada publik dan mengumpulkan feedback pengunjung untuk mengevaluasi potensi produk serta area yang perlu ditingkatkan.",
   },
 ];
 
@@ -154,9 +208,10 @@ export const works: {
   number: string;
   category: string;
   title: string;
-  year: string;
+  year?: string;
   tone: Tone;
   url: string;
+  links?: { label: string; url: string }[];
   // Thumbnail karya (opsional); tanpa gambar, kartu menampilkan nomor.
   image?: string;
 }[] = [
@@ -191,13 +246,41 @@ export const works: {
   {
     number: "05",
     category: "Social",
-    title: "Konten Storytelling ROXST & Client",
+    title: "Talent Konten Sosial Media",
     year: "2025 — 2026",
     tone: "blush",
-    // Loud.id: https://www.instagram.com/reel/DaKR8R2zuYT/
-    // Yamaha:  https://www.instagram.com/reel/DDmLgcSTup9/
     image: "/images/roxst-photoshoot.webp",
-    url: "https://www.instagram.com/reel/DO3bm4xEUWE/",
+    url: "https://www.instagram.com/reels/DO3bm4xEUWE/",
+    links: [
+      {
+        label: "Roxst",
+        url: "https://www.instagram.com/reels/DO3bm4xEUWE/",
+      },
+      {
+        label: "Loud.id",
+        url: "https://www.instagram.com/reel/DaKR8R2zuYT/?srtk=Y29xcGp5d2IyNXg2",
+      },
+      {
+        label: "Sumber Mulia Motor",
+        url: "https://www.instagram.com/reel/DDmLgcSTup9/?srtk=MTA3b2plejRzeTVtYQ==",
+      },
+    ],
+  },
+  {
+    number: "06",
+    category: "SEM & SEO",
+    title: "Brand Analysis & Digital Strategy",
+    tone: "white",
+    image: "/images/madformakeup-preview.webp",
+    url: "https://canva.link/rkgzpu70br0ctpy",
+  },
+  {
+    number: "07",
+    category: "Business Development",
+    title: "Strapify – Venture Creation Expo",
+    tone: "blush",
+    image: "/images/strapify-expo.png",
+    url: "https://canva.link/vjtmcysy3djdpbr",
   },
 ];
 
@@ -209,8 +292,7 @@ export const featuredWork = {
   description:
     "\"Beauty Class with Makeover\" adalah event kecantikan yang saya selenggarakan sendiri sebagai proyek mata kuliah Event Management. Saya menangani sponsorship dan MoU, promosi di media sosial, desain poster dan banner, hingga pelaksanaan event bersama 12 peserta.",
   stats: ["8 sponsor", "12 peserta", "Rp3,5 juta dana sponsor tunai"],
-  // Placeholder; ganti dengan foto/poster Beauty Class dari client.
   image: "/images/beauty-class.webp",
-  alt: "Placeholder: dokumentasi event Beauty Class with Makeover",
+  alt: "Dokumentasi Beauty Class with Makeover bersama tim Makeover",
   url: "https://canva.link/29hffthc1mjz8kn",
 };

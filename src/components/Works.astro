@@ -21,8 +21,8 @@ import Lily from "./Lily.astro";
         <img
           src={featuredWork.image}
           alt={featuredWork.alt}
-          width="1800"
-          height="1013"
+          width="1200"
+          height="675"
           loading="lazy"
           decoding="async"
         />
@@ -47,38 +47,328 @@ import Lily from "./Lily.astro";
       </div>
     </article>
 
-    <div class="works-grid">
+    <div class="works-carousel" role="region" aria-roledescription="carousel" aria-label="Karya pilihan" data-reveal>
+      <div class="works-carousel__bar">
+        <p>Geser untuk melihat karya <span aria-hidden="true">↔</span></p>
+        <div class="works-carousel__controls" hidden>
+          <button type="button" data-carousel-toggle aria-pressed="false" aria-label="Jeda gerak otomatis" aria-controls="works-track">Jeda</button>
+          <button type="button" data-carousel-prev aria-label="Karya sebelumnya" aria-controls="works-track">←</button>
+          <button type="button" data-carousel-next aria-label="Karya berikutnya" aria-controls="works-track">→</button>
+        </div>
+      </div>
+      <div class="works-track" id="works-track" tabindex="0" aria-label="Daftar karya, gunakan panah kiri dan kanan untuk menggeser">
       {
-        works.map((item, index) => (
-          <a
-            class="work-card"
-            href={item.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-reveal
-            style={`--d: ${index * 60}ms`}
-          >
-            <div class={`work-card__thumb tone-${item.tone}`}>
-              {
-                item.image ? (
-                  <img src={item.image} alt="" loading="lazy" decoding="async" />
-                ) : (
-                  <span class="work-card__ghost" aria-hidden="true">
-                    {item.number}
+        works.map((item) => {
+          const Card = item.links ? "button" : "a";
+          return (
+            <>
+              <Card
+                class="work-card"
+                href={item.links ? undefined : item.url}
+                target={item.links ? undefined : "_blank"}
+                rel={item.links ? undefined : "noopener noreferrer"}
+                type={item.links ? "button" : undefined}
+                data-work-dialog={item.links ? `work-links-${item.number}` : undefined}
+                aria-haspopup={item.links ? "dialog" : undefined}
+                aria-controls={item.links ? `work-links-${item.number}` : undefined}
+                draggable="false"
+              >
+                <div class={`work-card__thumb tone-${item.tone}`}>
+                  {
+                    item.image ? (
+                      <img src={item.image} alt="" loading="lazy" decoding="async" draggable="false" />
+                    ) : (
+                      <span class="work-card__ghost" aria-hidden="true">
+                        {item.number}
+                      </span>
+                    )
+                  }
+                  <span class="work-card__cta" aria-hidden="true">
+                    Lihat karya <span class="work-card__cta-arrow">↗</span>
                   </span>
-                )
-              }
-              <span class="work-card__cta" aria-hidden="true">
-                Lihat karya <span class="work-card__cta-arrow">↗</span>
-              </span>
-            </div>
-            <p class="work-card__meta">
-              {item.category} &middot; {item.year}
-            </p>
-            <h3 class="work-card__title">{item.title}</h3>
-          </a>
-        ))
+                </div>
+                <p class="work-card__meta">
+                  {item.category}{item.year && <> &middot; {item.year}</>}
+                </p>
+                <h3 class="work-card__title">{item.title}</h3>
+              </Card>
+              {item.links && (
+                <dialog
+                  class="work-links"
+                  id={`work-links-${item.number}`}
+                  aria-labelledby={`work-links-title-${item.number}`}
+                  aria-describedby={`work-links-desc-${item.number}`}
+                >
+                  <form method="dialog" class="work-links__close-form">
+                    <button class="work-links__close" aria-label="Tutup pilihan karya">×</button>
+                  </form>
+                  <p class="work-links__kicker">Lihat karya</p>
+                  <h3 id={`work-links-title-${item.number}`}>{item.title}</h3>
+                  <p class="work-links__desc" id={`work-links-desc-${item.number}`}>
+                    Pilih karya atau akun Instagram yang ingin kamu lihat.
+                  </p>
+                  <ul class="work-links__list">
+                    {item.links.map((link) => (
+                      <li>
+                        <a href={link.url} target="_blank" rel="noopener noreferrer">
+                          <span>{link.label}</span><span aria-hidden="true">↗</span>
+                          <span class="work-links__sr-only"> (buka di tab baru)</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </dialog>
+              )}
+            </>
+          );
+        })
       }
+      </div>
     </div>
   </div>
 </section>
+
+<script>
+  const carousel = document.querySelector<HTMLElement>(".works-carousel");
+  const track = carousel?.querySelector<HTMLElement>(".works-track");
+  const toggle = carousel?.querySelector<HTMLButtonElement>("[data-carousel-toggle]");
+
+  if (carousel && track && toggle) {
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let paused = motion.matches;
+    let hovered = false;
+    let visible = !("IntersectionObserver" in window);
+    let interacting = false;
+    let resumeAt = 0;
+    let position = track.scrollLeft;
+    let lastWritten = track.scrollLeft;
+    let direction = 1;
+    let lastTime = performance.now();
+    let preventClickUntil = 0;
+    let drag: { id: number; x: number; start: number; moved: boolean } | null = null;
+
+    const updateToggle = () => {
+      toggle.textContent = paused ? "Putar" : "Jeda";
+      toggle.setAttribute("aria-pressed", String(paused));
+      toggle.setAttribute("aria-label", paused ? "Putar gerak otomatis" : "Jeda gerak otomatis");
+    };
+    updateToggle();
+    carousel.querySelector<HTMLElement>(".works-carousel__controls")?.removeAttribute("hidden");
+
+    toggle.addEventListener("click", () => {
+      paused = !paused;
+      updateToggle();
+    });
+    motion.addEventListener("change", (event) => {
+      paused = event.matches;
+      updateToggle();
+    });
+
+    const slide = (step: number) => {
+      const card = track.querySelector<HTMLElement>(".work-card");
+      if (!card) return;
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      const maximum = track.scrollWidth - track.clientWidth;
+      let next = track.scrollLeft + step * (card.offsetWidth + gap);
+      if (step > 0 && track.scrollLeft >= maximum - 2) next = 0;
+      if (step < 0 && track.scrollLeft <= 2) next = maximum;
+      resumeAt = performance.now() + 5000;
+      track.scrollTo({ left: next, behavior: motion.matches ? "auto" : "smooth" });
+    };
+    carousel.querySelector("[data-carousel-prev]")?.addEventListener("click", () => slide(-1));
+    carousel.querySelector("[data-carousel-next]")?.addEventListener("click", () => slide(1));
+    track.addEventListener("keydown", (event) => {
+      if (event.target !== track) return;
+      if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+        event.preventDefault();
+        slide(event.key === "ArrowRight" ? 1 : -1);
+      }
+    });
+
+    carousel.addEventListener("pointerenter", (event) => {
+      if (event.pointerType === "mouse") hovered = true;
+    });
+    carousel.addEventListener("pointerleave", () => { hovered = false; });
+    carousel.addEventListener("pointerdown", () => { interacting = true; });
+    const finishInteraction = () => {
+      if (interacting) resumeAt = performance.now() + 5000;
+      interacting = false;
+      if (drag?.moved) preventClickUntil = performance.now() + 300;
+      drag = null;
+      track.classList.remove("is-dragging");
+    };
+    window.addEventListener("pointerup", finishInteraction);
+    window.addEventListener("pointercancel", finishInteraction);
+    track.addEventListener("lostpointercapture", finishInteraction);
+    track.addEventListener("dragstart", (event) => event.preventDefault());
+    track.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "mouse" && event.button === 0) {
+        drag = { id: event.pointerId, x: event.clientX, start: track.scrollLeft, moved: false };
+      }
+    });
+    track.addEventListener("pointermove", (event) => {
+      if (!drag || drag.id !== event.pointerId) return;
+      const distance = event.clientX - drag.x;
+      if (!drag.moved && Math.abs(distance) < 6) return;
+      if (!drag.moved) {
+        drag.moved = true;
+        track.setPointerCapture(event.pointerId);
+        track.classList.add("is-dragging");
+      }
+      event.preventDefault();
+      track.scrollLeft = drag.start - distance;
+    });
+    track.addEventListener("click", (event) => {
+      if (performance.now() < preventClickUntil) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }
+    }, true);
+    track.addEventListener("scroll", () => {
+      if (Math.abs(track.scrollLeft - lastWritten) > 1) {
+        position = track.scrollLeft;
+        resumeAt = performance.now() + 5000;
+      }
+    }, { passive: true });
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; }, { threshold: 0.15 }).observe(carousel);
+    }
+    const animate = (time: number) => {
+      const elapsed = Math.min(time - lastTime, 64) / 1000;
+      lastTime = time;
+      if (paused || hovered || !visible || interacting || document.hidden ||
+          time < resumeAt || (carousel.contains(document.activeElement) && document.activeElement?.matches(":focus-visible")) ||
+          document.querySelector("dialog[open]")) {
+        position = track.scrollLeft;
+      } else {
+        const maximum = track.scrollWidth - track.clientWidth;
+        if (maximum > 1) {
+          position = Math.max(0, Math.min(maximum, position + direction * 14 * elapsed));
+          track.scrollLeft = position;
+          lastWritten = track.scrollLeft;
+          if (position >= maximum) direction = -1;
+          else if (position <= 0) direction = 1;
+        }
+      }
+      requestAnimationFrame(animate);
+    };
+    requestAnimationFrame(animate);
+  }
+
+  document.querySelectorAll<HTMLButtonElement>("[data-work-dialog]").forEach((button) => {
+    const dialog = document.getElementById(button.dataset.workDialog ?? "");
+    if (!(dialog instanceof HTMLDialogElement)) return;
+
+    button.addEventListener("click", () => dialog.showModal());
+    dialog.addEventListener("click", (event) => {
+      if (event.target !== dialog) return;
+      const bounds = dialog.getBoundingClientRect();
+      if (event.clientX < bounds.left || event.clientX > bounds.right ||
+          event.clientY < bounds.top || event.clientY > bounds.bottom) {
+        dialog.close();
+      }
+    });
+  });
+</script>
+
+<style>
+  button.work-card {
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .work-links {
+    width: min(480px, calc(100% - 32px));
+    max-height: calc(100dvh - 32px);
+    margin: auto;
+    padding: clamp(24px, 5vw, 36px);
+    overflow-y: auto;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: 0 24px 80px rgb(36 19 27 / 20%);
+  }
+
+  .work-links::backdrop {
+    background: rgb(36 19 27 / 55%);
+    backdrop-filter: blur(4px);
+  }
+
+  .work-links__close-form {
+    display: flex;
+    justify-content: flex-end;
+    margin: -8px -8px 8px 0;
+  }
+
+  .work-links__close {
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--pink-deep);
+    font-size: 26px;
+    cursor: pointer;
+  }
+
+  .work-links__kicker {
+    color: var(--pink-deep);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .work-links h3 {
+    margin-top: 8px;
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 5vw, 2rem);
+    line-height: 1.2;
+  }
+
+  .work-links__desc {
+    margin-top: 12px;
+    color: var(--muted);
+  }
+
+  .work-links__list {
+    display: grid;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .work-links__list a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 18px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--white);
+    color: var(--pink-deep);
+    font-weight: 600;
+  }
+
+  .work-links__list a:hover {
+    border-color: var(--pink-deep);
+    background: var(--pink-soft);
+  }
+
+  .work-links__sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+</style>

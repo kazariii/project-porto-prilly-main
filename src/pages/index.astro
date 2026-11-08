@@ -5,10 +5,11 @@ import Hero from "../components/Hero.astro";
 import Marquee from "../components/Marquee.astro";
 import About from "../components/About.astro";
 import Experience from "../components/Experience.astro";
+import Project from "../components/Project.astro";
 import Education from "../components/Education.astro";
-import Documentation from "../components/Documentation.astro";
 import Works from "../components/Works.astro";
 import Contact from "../components/Contact.astro";
+import CVPreview from "../components/CVPreview.astro";
 import { skillsMarquee } from "../data/portfolio";
 ---
 
@@ -20,10 +21,11 @@ import { skillsMarquee } from "../data/portfolio";
     <Marquee items={skillsMarquee} />
     <About />
     <Experience />
+    <Project />
     <Education />
-    <Documentation />
     <Works />
   </main>
 
   <Contact />
+  <CVPreview />
 </Layout>

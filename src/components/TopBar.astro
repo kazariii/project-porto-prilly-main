@@ -8,15 +8,53 @@ import { site } from "../data/portfolio";
       <span class="topbar__mark" aria-hidden="true">{site.initials}</span>
       <span class="topbar__role">{site.role}</span>
     </a>
-    <nav class="topbar__nav" aria-label="Sections">
-      <a class="topbar__link" href="#about">About</a>
-      <a class="topbar__link" href="#experience">Experience</a>
-      <a class="topbar__link" href="#works">Works</a>
-      <a class="topbar__link topbar__cta" href="#contact">
-        Get in touch <span aria-hidden="true">↗</span>
-      </a>
-    </nav>
+    <div class="topbar__actions">
+      <nav class="topbar__nav" aria-label="Sections">
+        <a class="topbar__link" href="#about">About</a>
+        <a class="topbar__link" href="#experience">Experience</a>
+        <a class="topbar__link" href="#project">Project</a>
+        <a class="topbar__link" href="#works">Works</a>
+        <a class="topbar__link topbar__cta" href="#contact">
+          Get in touch <span aria-hidden="true">↗</span>
+        </a>
+      </nav>
+      <details class="mobile-menu">
+        <summary class="mobile-menu__toggle">
+          Menu <span class="mobile-menu__icon" aria-hidden="true"><span></span><span></span></span>
+        </summary>
+        <nav class="mobile-menu__panel" aria-label="Navigasi mobile">
+          <p class="mobile-menu__label">Explore portfolio</p>
+          <a href="#about"><span>About</span><span aria-hidden="true">01</span></a>
+          <a href="#experience"><span>Experiences</span><span aria-hidden="true">02</span></a>
+          <a href="#project"><span>Project</span><span aria-hidden="true">03</span></a>
+          <a href="#education"><span>Education</span><span aria-hidden="true">04</span></a>
+          <a href="#works"><span>Selected Work</span><span aria-hidden="true">05</span></a>
+          <a href="#contact"><span>Get in touch</span><span aria-hidden="true">↗</span></a>
+        </nav>
+      </details>
+    </div>
   </div>
 </header>
 
 <div class="progress" aria-hidden="true"></div>
+
+<script>
+  const menu = document.querySelector<HTMLDetailsElement>(".mobile-menu");
+  if (menu) {
+    menu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => { menu.open = false; });
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && menu.open) {
+        menu.open = false;
+        menu.querySelector("summary")?.focus();
+      }
+    });
+    document.addEventListener("pointerdown", (event) => {
+      if (event.target instanceof Node && !menu.contains(event.target)) menu.open = false;
+    });
+    window.matchMedia("(min-width: 1101px)").addEventListener("change", (event) => {
+      if (event.matches) menu.open = false;
+    });
+  }
+</script>

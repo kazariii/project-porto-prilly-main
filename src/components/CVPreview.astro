@@ -1,0 +1,283 @@
+---
+import { site } from "../data/portfolio";
+---
+
+<dialog class="cv-preview" id="cv-preview" aria-labelledby="cv-preview-title">
+  <header class="cv-preview__header">
+    <div>
+      <p class="cv-preview__eyebrow">Curriculum Vitae</p>
+      <h2 id="cv-preview-title">{site.name}</h2>
+    </div>
+    <form method="dialog">
+      <button class="cv-preview__close" aria-label="Tutup preview CV" autofocus>×</button>
+    </form>
+  </header>
+
+  <div class="cv-preview__toolbar">
+    <span>PDF <span aria-hidden="true">&middot;</span> 1 halaman</span>
+    <button type="button" class="cv-preview__zoom" aria-pressed="false" aria-controls="cv-preview-document">
+      Perbesar preview <span aria-hidden="true">＋</span>
+    </button>
+  </div>
+
+  <div class="cv-preview__document" id="cv-preview-document" tabindex="0" role="region" aria-label="Preview CV, gulir untuk membaca seluruh halaman">
+    <img
+      data-cv-image
+      data-src={site.cvPreview}
+      alt={`Preview CV ${site.name}, halaman 1. Versi PDF tersedia melalui tautan Buka PDF di bawah.`}
+      width="1273"
+      height="1800"
+      decoding="async"
+    />
+    <p class="cv-preview__error" hidden>Preview belum bisa dimuat. Kamu tetap bisa membuka atau mengunduh PDF di bawah.</p>
+  </div>
+
+  <footer class="cv-preview__footer">
+    <a class="cv-preview__original" href={site.cv} target="_blank" rel="noopener noreferrer">
+      Buka PDF <span aria-hidden="true">↗</span><span class="cv-preview__sr-only"> (tab baru)</span>
+    </a>
+    <a class="cv-preview__download" href={site.cv} download>
+      Download CV <span aria-hidden="true">↓</span>
+    </a>
+  </footer>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>("#cv-preview");
+  const previewImage = dialog?.querySelector<HTMLImageElement>("[data-cv-image]");
+  const documentArea = dialog?.querySelector<HTMLElement>(".cv-preview__document");
+  const zoom = dialog?.querySelector<HTMLButtonElement>(".cv-preview__zoom");
+
+  if (dialog && previewImage && documentArea && zoom) {
+    document.querySelectorAll<HTMLAnchorElement>("[data-cv-preview]").forEach((link) => {
+      link.addEventListener("click", (event) => {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
+            typeof dialog.showModal !== "function") return;
+        event.preventDefault();
+        if (!previewImage.src) previewImage.src = previewImage.dataset.src ?? "";
+        dialog.showModal();
+        documentArea.scrollTo(0, 0);
+      });
+    });
+
+    zoom.addEventListener("click", () => {
+      const enlarged = zoom.getAttribute("aria-pressed") !== "true";
+      zoom.setAttribute("aria-pressed", String(enlarged));
+      documentArea.classList.toggle("is-enlarged", enlarged);
+      zoom.innerHTML = enlarged
+        ? 'Sesuaikan layar <span aria-hidden="true">−</span>'
+        : 'Perbesar preview <span aria-hidden="true">＋</span>';
+    });
+
+    previewImage.addEventListener("error", () => {
+      previewImage.hidden = true;
+      zoom.hidden = true;
+      const error = dialog.querySelector<HTMLElement>(".cv-preview__error");
+      if (error) error.hidden = false;
+    });
+
+    dialog.addEventListener("close", () => {
+      documentArea.classList.remove("is-enlarged");
+      zoom.setAttribute("aria-pressed", "false");
+      zoom.innerHTML = 'Perbesar preview <span aria-hidden="true">＋</span>';
+    });
+
+    dialog.addEventListener("click", (event) => {
+      if (event.target !== dialog) return;
+      const bounds = dialog.getBoundingClientRect();
+      if (event.clientX < bounds.left || event.clientX > bounds.right ||
+          event.clientY < bounds.top || event.clientY > bounds.bottom) dialog.close();
+    });
+  }
+</script>
+
+<style is:global>
+  html:has(#cv-preview[open]) {
+    overflow: hidden;
+  }
+</style>
+
+<style>
+  .cv-preview {
+    width: min(1040px, calc(100% - 32px));
+    height: min(1040px, calc(100dvh - 48px));
+    max-height: none;
+    margin: auto;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: 0 24px 90px rgb(36 19 27 / 24%);
+  }
+
+  .cv-preview[open] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+  }
+
+  .cv-preview::backdrop {
+    background: rgb(36 19 27 / 60%);
+    backdrop-filter: blur(7px);
+  }
+
+  .cv-preview__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 22px 28px;
+  }
+
+  .cv-preview__eyebrow {
+    margin-bottom: 5px;
+    color: var(--pink-deep);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .cv-preview h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    line-height: 1.2;
+  }
+
+  .cv-preview__close {
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--pink-deep);
+    font-size: 26px;
+    cursor: pointer;
+  }
+
+  .cv-preview__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 28px;
+    border-block: 1px solid var(--line);
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 10px;
+  }
+
+  .cv-preview__zoom {
+    min-height: 32px;
+    padding: 4px 10px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--pink-deep);
+    cursor: pointer;
+  }
+
+  .cv-preview__document {
+    min-width: 0;
+    min-height: 0;
+    padding: 24px;
+    overflow: auto;
+    overscroll-behavior: contain;
+    background: #efe7eb;
+  }
+
+  .cv-preview__document img {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    margin-inline: auto;
+    background: var(--white);
+    box-shadow: 0 3px 16px rgb(36 19 27 / 10%);
+  }
+
+  .cv-preview__document.is-enlarged img {
+    width: 1100px;
+    max-width: none;
+  }
+
+  .cv-preview__document img[hidden] {
+    display: none;
+  }
+
+  .cv-preview__error {
+    max-width: 36ch;
+    margin: 32px auto;
+    text-align: center;
+  }
+
+  .cv-preview__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 28px;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+
+  .cv-preview__original,
+  .cv-preview__download {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 44px;
+  }
+
+  .cv-preview__original {
+    color: var(--muted);
+  }
+
+  .cv-preview__original:hover {
+    color: var(--pink-deep);
+  }
+
+  .cv-preview__download {
+    padding: 12px 22px;
+    border-radius: 999px;
+    background: var(--pink-deep);
+    color: var(--white);
+  }
+
+  .cv-preview__download:hover {
+    background: var(--pink-dark);
+  }
+
+  .cv-preview__sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 600px) {
+    .cv-preview {
+      width: calc(100% - 16px);
+      height: calc(100dvh - 24px);
+      border-radius: 16px;
+    }
+
+    .cv-preview__header,
+    .cv-preview__footer {
+      padding: 16px;
+    }
+
+    .cv-preview__toolbar {
+      padding: 8px 16px;
+    }
+
+    .cv-preview__document {
+      padding: 12px;
+    }
+  }
+</style>

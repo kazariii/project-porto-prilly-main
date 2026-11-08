@@ -1,6 +1,7 @@
 ---
 import { site } from "../data/portfolio";
 import Lily from "./Lily.astro";
+import CVButton from "./CVButton.astro";
 ---
 
 <section class="hero" id="top">
@@ -25,22 +26,21 @@ import Lily from "./Lily.astro";
           {site.availability}
         </span>
 
-        <a class="hero__cta" href="#contact">
-          Let&rsquo;s talk <span class="arrow" aria-hidden="true">↗</span>
-        </a>
-
-        <a class="hero__cta" href={site.cv} download>
-          Unduh CV <span class="arrow" aria-hidden="true">↓</span>
-        </a>
+        <div class="hero__links">
+          <CVButton />
+          <a class="hero__cta" href="#contact">
+            Let&rsquo;s talk <span class="arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
       </div>
     </div>
 
     <figure class="hero__photo">
       <img
-        src="/images/portrait.webp"
+        src="/images/hero-about.webp"
         alt={`Portrait of ${site.name}`}
-        width="720"
-        height="1280"
+        width="829"
+        height="1370"
         loading="eager"
         fetchpriority="high"
       />

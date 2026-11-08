@@ -1,6 +1,7 @@
 ---
 import { site } from "../data/portfolio";
 import Lily from "./Lily.astro";
+import CVButton from "./CVButton.astro";
 ---
 
 <section class="contact" id="contact" aria-labelledby="contact-title">
@@ -82,7 +83,7 @@ import Lily from "./Lily.astro";
           </a>
         )
       }
-      <a href={site.cv} download>Unduh CV (PDF)</a>
+      <CVButton />
     </div>
 
     <footer class="footer">
