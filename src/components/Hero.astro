@@ -11,13 +11,14 @@ import CVButton from "./CVButton.astro";
   <Lily class="deco deco--hero-tiny2" />
   <div class="wrap hero__inner">
     <div class="hero__text">
-      <p class="hero__eyebrow">{site.role} &middot; {site.location}</p>
+      <p class="hero__eyebrow">Portfolio &middot; Public Relations &middot; {site.year}</p>
 
       <h1 class="hero__name">
         <span>{site.firstName}</span>
         <span class="accent">{site.lastName}</span>
       </h1>
 
+      <p class="hero__role">{site.role}</p>
       <p class="hero__tagline">{site.tagline}</p>
 
       <div class="hero__actions">
@@ -28,11 +29,12 @@ import CVButton from "./CVButton.astro";
 
         <div class="hero__links">
           <CVButton />
-          <a class="hero__cta" href="#contact">
-            Let&rsquo;s talk <span class="arrow" aria-hidden="true">↗</span>
+          <a class="hero__cta" href="#works">
+            Lihat karya <span class="arrow" aria-hidden="true">↗</span>
           </a>
         </div>
       </div>
+      <p class="hero__footnote">{site.university} <span aria-hidden="true">/</span> {site.location}</p>
     </div>
 
     <figure class="hero__photo">
@@ -44,6 +46,7 @@ import CVButton from "./CVButton.astro";
         loading="eager"
         fetchpriority="high"
       />
+      <figcaption class="hero__photo-caption"><span>Prilly Ester Intan Sinaga</span><span>Content &amp; connection.</span></figcaption>
     </figure>
   </div>
 </section>
